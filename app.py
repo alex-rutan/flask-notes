@@ -1,6 +1,6 @@
 """Flask app for Cupcakes"""
 
-from flask import Flask, render_template, redirect, jsonify, session
+from flask import Flask, render_template, flash, redirect, jsonify, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User
 from forms import CreateUserForm, LoginUserForm
@@ -69,8 +69,8 @@ def login_user():
         user = User.authenticate(name, pwd)
 
         if user:
-            session["user_username"] = user.username  # keep logged in
-            return redirect("/secret")
+            session["username"] = user.username  # keep logged in
+            return redirect(f"/users/{name}")
 
         else:
             form.username.errors = ["Bad name/password"]
@@ -78,8 +78,26 @@ def login_user():
     return render_template('login_user_form.html', form=form)
 
 
-@app.route("/secret")
-def secret():
-    """Handles secret page for logged-in users only"""
+@app.route("/logout", methods=["POST"])
+def logout():
+    """Logs user out and redirects to login page."""
 
-    return "You made it!"
+    # Remove "username" if present, but no errors if it wasn't
+    # TODO: is None necessary here??
+    session.pop("username", None)
+
+    return redirect("/login")
+
+
+@app.route("/users/<username>")
+def load_user_profile(username):
+    """Handles user profile page for logged-in users only"""
+
+    user = User.query.get_or_404(username)
+
+    if "username" not in session:
+        flash("You must be logged in to view!")
+        return redirect("/login")
+
+    return render_template("user_profile.html",
+                            user=user)

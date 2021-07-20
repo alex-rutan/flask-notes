@@ -5,6 +5,7 @@
 {% block content %}
 
 <main class="container-fluid">
+
     <form id="create-user-form" method="POST">
         {{ form.hidden_tag() }}
         <!--add type=hidden form fields -->
@@ -24,6 +25,16 @@
 
         <button class="btn btn-primary" type="submit">Create User</button>
     </form>
+
+    <br>
+    <br>
+    <div class="go-to-login">
+        <div>Already have an account?</div>
+        <form action="/login">
+            <button class="btn btn-success" type="submit">Go To Login</button>
+        </form>
+    </div>
+    
 </main>
 
 {% endblock %}

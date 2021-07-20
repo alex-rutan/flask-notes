@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} User Profile {% endblock %}
+
+{% block content %}
+
+{% if 'user_id' in session %}
+<form action="/logout" method="POST">
+    <button class="btn btn-danger" type="submit">Logout</button>
+</form>
+{% endif %}
+
+<div class="user-info">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ user.username }}
+            </h5>
+            <p class="card-text">{{ user.first_name }}</p>
+            <p class="card-text">{{ user.last_name }}</p>
+            <p class="card-text">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
