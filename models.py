@@ -1,11 +1,13 @@
 """Models for Notes app."""
 
+from flask import session, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
+
 
 def connect_db(app):
     """Connect to database to provided Flask app"""
@@ -21,13 +23,17 @@ class User(db.Model):
 
     username = db.Column(db.String(20),
                    primary_key=True)
+
     password = db.Column(db.Text,
                        nullable=False)
+
     email = db.Column(db.String(50),
                        nullable=False,
                        unique=True)
+
     first_name = db.Column(db.String(30),
                        nullable=False)
+
     last_name = db.Column(db.String(30),
                        nullable=False)
 
@@ -57,3 +63,25 @@ class User(db.Model):
             return u
         else:
             return False
+
+
+
+class Note(db.Model):
+    """Note."""
+
+    __tablename__ = "notes"
+
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
+
+    title = db.Column(db.String(100),
+                        nullable=False)
+
+    content = db.Column(db.Text,
+                        nullable=False)
+
+    owner = db.Column(db.ForeignKey("users.username"),
+                        nullable=False)
+                                
+    

@@ -6,9 +6,11 @@
 
 {% if 'user_id' in session %}
 <form action="/logout" method="POST">
-    <button class="btn btn-danger" type="submit">Logout</button>
+    <button class="btn btn-primary" type="submit">Logout</button>
 </form>
 {% endif %}
+
+<br>
 
 <div class="user-info">
     <div class="card" style="width: 18rem;">
@@ -19,8 +21,34 @@
             <p class="card-text">{{ user.first_name }}</p>
             <p class="card-text">{{ user.last_name }}</p>
             <p class="card-text">{{ user.email }}</p>
+            <br>
+            <form action="/users/{{ user.username }}/notes/add">
+                <button class="btn btn-success" type="submit">Add Notes</button>
+            </form>
+            <br>
+            <form action="/users/{{ user.username }}/delete" method="POST">
+                <button class="btn btn-danger" type="submit">Delete User Account</button>
+            </form>
         </div>
     </div>
 </div>
+
+<br>
+
+{% for note in notes %}
+<div class="card" style="width: 18rem;">
+
+    <div class="card-body">
+        <h5 class="card-title"> {{ note.title }} </h5>
+        <p class="card-text"> {{ note.content }} </p>
+    </div>
+    <form action="/notes/{{ note.id }}/update">
+        <button class="btn btn-success" type="submit">Edit Note</button>
+    </form>
+    <form action="/notes/{{ note.id }}/delete" method="POST">
+        <button class="btn btn-danger" type="submit">Delete Note</button>
+    </form>
+</div>
+{% endfor %}
 
 {% endblock %}

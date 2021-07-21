@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %} Login User {% endblock %}
+{% block title %} Edit Note {% endblock %}
 
 {% block content %}
 
 <main class="container-fluid">
-    <form id="login-user-form" method="POST">
+
+    <form id="edit-note-form" method="POST">
         {{ form.hidden_tag() }}
         <!--add type=hidden form fields -->
 
@@ -22,17 +23,9 @@
 
         {% endfor %}
 
-        <button class="btn btn-primary" type="submit">Login User</button>
+        <button class="btn btn-primary" type="submit">Edit Note</button>
     </form>
 
-    <br>
-    <br>
-    <div class="go-to-register">
-        <div>Don't have an account yet?</div>
-        <form action="/register">
-            <button class="btn btn-success" type="submit">Create a User</button>
-        </form>
-    </div>
 </main>
 
 {% endblock %}
