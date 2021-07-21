@@ -97,6 +97,8 @@ def load_user_profile(username):
 
     user = User.query.get_or_404(username)
     notes = Note.query.filter(Note.owner ==username).all()
+    # TODO: this is where the relationship would come into play! would just 
+    #need to use user.notes for notes
 
     return render_template("user_profile.html",
                             user=user,
@@ -114,6 +116,7 @@ def delete_user_profile(username):
 
     user = User.query.get_or_404(username)
     user_notes = Note.query.filter(Note.owner == username).all()
+    #TODO: same as previous route
     
     for note in user_notes:
         db.session.delete(note)
